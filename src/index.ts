@@ -6,27 +6,26 @@ import JSZip from 'jszip';
 import { fillZip, generateZip } from './main'
 
 const app = express()
-const port = 3000
+const port = 8080
 
 app.use(cors({
     origin: "https://yperrot.github.io",
 }))
 
 app.get('/download', async (req, res) => {
-    // Ex: 'https://github.com/yPerrot/Solution_Responsive_devChallenges/tree/main/interior-consultant'
-    const githubLink = req.query.link;
+    const githubURL = req.query.url;
 
-    if (typeof githubLink === 'string') {
+    if (typeof githubURL === 'string') {
         let zip = new JSZip();
         try {
-            zip = await fillZip(zip, githubLink)
+            zip = await fillZip(zip, githubURL)
         } catch (error) {
             console.log(error);
-            res.status(400).send('Invalid argument');
+            res.status(500).send('Unable to dowload files');
             return;
         }
 
-        const zipPath = githubLink.split('/').pop() + '.zip';
+        const zipPath = githubURL.split('/').pop() + '.zip';
         await generateZip(zip, zipPath)
         
         res.download(zipPath, zipPath, (err) => {
@@ -40,9 +39,11 @@ app.get('/download', async (req, res) => {
                 if (err) console.log(err);
             })
         });
+    } else {
+        res.status(400).send('Invalid argument');
     }
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`App runs on http://localhost:${port}`)
 })

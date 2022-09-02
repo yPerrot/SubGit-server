@@ -7,6 +7,8 @@ import JSZip from 'jszip';
 import * as jsdom from 'jsdom';
 const { JSDOM } = jsdom;
 
+const TMP_FILE_PATH = '/home/node/tmp'
+
 export async function fillZip(zip: JSZip, path: string) {
 	const response = await axios.get(path);
 
@@ -50,7 +52,7 @@ export function generateZip(zip: JSZip, fileName: string) {
         })
 		.pipe(fs.createWriteStream(fileName))
         .on('finish', () => {
-            removeAllFileFromFolder('C:/Users/Yohan/Desktop/subGit/server/tmp');
+            removeAllFileFromFolder(TMP_FILE_PATH);
             resolve();
         })
         .on('error', (err) => {
@@ -71,8 +73,8 @@ interface urlData {
 }
 
 async function addFileContentToZip(fileName: string, subElemContent: AxiosResponse<any, any>, zip: JSZip) {
-	const path = 'C:/Users/Yohan/Desktop/subGit/server/tmp/' + fileName;
-	const file = fs.createWriteStream(path);
+	const filePath = path.join(TMP_FILE_PATH, fileName)
+	const file = fs.createWriteStream(filePath);
 
 	subElemContent.data.pipe(file);
 
@@ -81,7 +83,7 @@ async function addFileContentToZip(fileName: string, subElemContent: AxiosRespon
 		file.on('error', reject);
 	});
 
-	var f = fs.readFileSync(path);
+	var f = fs.readFileSync(filePath);
 	zip.file(fileName, f, { base64: true });
 }
 
