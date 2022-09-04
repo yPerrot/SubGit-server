@@ -7,7 +7,7 @@ import JSZip from 'jszip';
 import * as jsdom from 'jsdom';
 const { JSDOM } = jsdom;
 
-const TMP_FILE_PATH = ' /home/node/tmp'
+const TMP_FILE_PATH = '/home/node/tmp'
 
 export async function fillZip(zip: JSZip, path: string) {
 	const response = await axios.get(path);
