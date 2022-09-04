@@ -3,13 +3,13 @@ import express from 'express';
 import cors from 'cors';
 import JSZip from 'jszip';
 
-import { fillZip, generateZip } from './main'
+import { fillZip, generateZip } from './zipUtils'
 
 const app = express()
 const port = 8080
 
 app.use(cors({
-    origin: "https://yperrot.github.io",
+    origin: "https://subgit.netlify.app",
 }))
 
 app.get('/download', async (req, res) => {

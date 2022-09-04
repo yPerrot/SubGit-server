@@ -7,7 +7,7 @@ import JSZip from 'jszip';
 import * as jsdom from 'jsdom';
 const { JSDOM } = jsdom;
 
-const TMP_FILE_PATH = '/home/node/tmp'
+const TMP_FILE_PATH = './tmp'
 
 export async function fillZip(zip: JSZip, path: string) {
 	const response = await axios.get(path);
@@ -74,6 +74,8 @@ interface urlData {
 
 async function addFileContentToZip(fileName: string, subElemContent: AxiosResponse<any, any>, zip: JSZip) {
 	const filePath = path.join(TMP_FILE_PATH, fileName)
+	if (!fs.existsSync(TMP_FILE_PATH)) await fs.promises.mkdir(TMP_FILE_PATH)
+
 	const file = fs.createWriteStream(filePath);
 
 	subElemContent.data.pipe(file);
