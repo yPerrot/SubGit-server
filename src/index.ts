@@ -21,7 +21,7 @@ app.get('/download', async (req, res) => {
             zip = await fillZip(zip, githubURL)
         } catch (error) {
             console.log(error);
-            res.status(500).send('Unable to dowload files');
+            res.status(500).send('Unable to download files');
             return;
         }
 

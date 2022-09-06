@@ -16,7 +16,7 @@ npm run dev
 
  - Download repo's dir as a zip file: 
  ```
- https://subgit-server.fly.dev/dowload?url=<DIR_URL>
+ https://subgit-server.fly.dev/download?url=<DIR_URL>
  ```
 
 ## Technos & Tools
